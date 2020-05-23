@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Gallery page</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<link rel="stylesheet" type="text/css" href="font_awesome/css/all.min.css">
+	<link rel="stylesheet" type="text/css" href="style.css">
+
+</head>
+<body>
+	<header>
+		<div class="name-as-logo">
+			<span class="em">Gallery</span><span class="logo">DuroSly</span>
+		</div>
+	</header>
+	<main> 
+		<section class="gallery-container">
+			<div class="box">
+				<div class="image-container">
+					<img class="image" src="images/Lighthouse.jpg" alt="Lighthouse" />
+				</div>
+				<div class="details">
+					<h4>Light house</h4>
+					<h5>Colorlib</h5>
+					<p title="Date uploaded"><i class="fas fa-calendar-alt"></i> <span>12 thursday, 2020.</span></p>
+					<p title="Time uploaded"><i class="fas fa-clock"></i> <span>12:00pm GMT +1</span></p>
+				</div>
+			</div>
+			<div class="box">
+				<div class="image-container">
+					<img class="image" src="images/Tulips.jpg" alt="Lighthouse" />
+				</div>
+				<div class="details">
+					<h4>Light house</h4>
+					<h5>Colorlib</h5>
+					<p title="Date uploaded"><i class="fas fa-calendar-alt"></i> <span>12 thursday, 2020.</span></p>
+					<p title="Time uploaded"><i class="fas fa-clock"></i> <span>12:00pm GMT +1</span></p>
+				</div>
+			</div>
+			<div class="box">
+				<div class="image-container">
+					<img class="image" src="images/Koala.jpg" alt="Lighthouse" />
+				</div>
+				<div class="details">
+					<h4>Light house</h4>
+					<h5>Colorlib</h5>
+					<p title="Date uploaded"><i class="fas fa-calendar-alt"></i> <span>12 thursday, 2020.</span></p>
+					<p title="Time uploaded"><i class="fas fa-clock"></i> <span>12:00pm GMT +1</span></p>
+				</div>
+			</div>
+			<div class="box">
+				<div class="image-container">
+					<img class="image" src="images/Penguins.jpg" alt="Lighthouse" />
+				</div>
+				<div class="details">
+					<h4>Light house</h4>
+					<h5>Colorlib</h5>
+					<p title="Date uploaded"><i class="fas fa-calendar-alt"></i> <span>12 thursday, 2020.</span></p>
+					<p title="Time uploaded"><i class="fas fa-clock"></i> <span>12:00pm GMT +1</span></p>
+				</div>
+			</div>
+			<div class="box">
+				<div class="image-container">
+					<img class="image" src="images/Hydrangeas.jpg" alt="Lighthouse" />
+				</div>
+				<div class="details">
+					<h4>Light house</h4>
+					<h5>Colorlib</h5>
+					<p title="Date uploaded"><i class="fas fa-calendar-alt"></i> <span>12 thursday, 2020.</span></p>
+					<p title="Time uploaded"><i class="fas fa-clock"></i> <span>12:00pm GMT +1</span></p>
+				</div>
+			</div>
+			<div class="box">
+				<div class="image-container">
+					<img class="image" src="images/Tulips.jpg" alt="Lighthouse" />
+				</div>
+				<div class="details">
+					<h4>Light house</h4>
+					<h5>Colorlib</h5>
+					<p title="Date uploaded"><i class="fas fa-calendar-alt"></i> <span>12 thursday, 2020.</span></p>
+					<p title="Time uploaded"><i class="fas fa-clock"></i> <span>12:00pm GMT +1</span></p>
+				</div>
+			</div>
+			<div class="box">
+				<div class="image-container">
+					<img class="image" src="images/Jellyfish.jpg" alt="Lighthouse" />
+				</div>
+				<div class="details">
+					<h4>Light house</h4>
+					<h5>Colorlib</h5>
+					<p title="Date uploaded"><i class="fas fa-calendar-alt"></i> <span>12 thursday, 2020.</span></p>
+					<p title="Time uploaded"><i class="fas fa-clock"></i> <span>12:00pm GMT +1</span></p>
+				</div>
+			</div>
+			<div class="box">
+				<div class="image-container">
+					<img class="image" src="images/Desert.jpg" alt="Lighthouse" />
+				</div>
+				<div class="details">
+					<h4>Light house</h4>
+					<h5>Colorlib</h5>
+					<p title="Date uploaded"><i class="fas fa-calendar-alt"></i> <span>12 thursday, 2020.</span></p>
+					<p title="Time uploaded"><i class="fas fa-clock"></i> <span>12:00pm GMT +1</span></p>
+				</div>
+			</div>
+		</section>
+		<section class="see-more-btn-container">
+			<button>See more...</button>
+		</section>
+		<section class="form-region">
+			<div class="form-container">
+				<form class="upload-form">
+					<h4>You can add to the gallery collection.</h4>
+					<div class="form-group">
+						<input type="text" id="filename" name="filename" placeholder="Image name" required>
+						<label for="filename">Image name</label>
+					</div>
+					<div class="form-group">
+						<textarea id="filedesc" name="filedesc" placeholder="Image descriptions" required></textarea>
+						<label for="filedesc">Image description</label>
+					</div>
+					<div class="form-group">
+						<input type="text" id="filecredit" name="filecredit" placeholder="Credit / photographer" required>
+						<label for="filecredit">Credit / photographer</label>
+					</div>
+					<div class="form-group action-btn">
+						<input type="file" id="file" name="file" accept="image/*">
+						<label for="file">Upload <span class="upload-btn-truncate">image</span></label>
+						<button type="submit" name="submit-file" class="submit-btn">Submit</button>
+					</div>
+					<div class="form-group">
+						<span class="image-name-preview"></span>
+					</div>
+					<div class="form-progress-overlay">
+						<div class="loading">
+							<img src="svg/camera-fade.svg" />
+						</div>
+						<div class="progress-container">
+							<div class="progress-bar"></div>
+						</div>
+					</div>
+				</form>
+
+				<form class="message-form">
+					<h4>Do leave a message.</h4>
+					<div class="form-group">
+						<input type="email" id="email" name="email" placeholder="E-mail" required>
+						<label for="email">Image name</label>
+					</div>
+					<div class="form-group">
+						<textarea id="message" name="message" placeholder="Message" required></textarea>
+						<label for="message">Message</label>
+					</div>
+					<div class="form-group action-btn">
+						<button type="submit" name="send-message" class="submit-btn">SEND</button>
+					</div>
+					<div class="form-progress-overlay">
+						<div class="loading">
+							<img src="svg/camera-fade.svg" />
+						</div>
+						<div class="progress-container">
+							<div class="progress-bar"></div>
+						</div>
+					</div>
+				</form>
+				<div class="action-container"><button class="action"><span class="text">Contact me</span><span class="icon mobile"><i class="fas fa-envelope"></i></span></button></div>
+			</div>
+			<marquee>Made this for fun to implement a simple image gallery using HTML, CSS, JavaScript and PHP. </marquee>
+		</section>
+	</main>
+	<footer class="footer">
+		<div class="author">
+			<h2>About me</h2>
+			<p>
+				My name is Albert Duro Slyvester. Am a full stack web developer skilled in HTML, CSS, JavaScript, PHP and ReactJS.
+				I enjoy coding, reading, teaching, swimming, singing and eating.
+				Am also a chess player and enjoy solving puzzles.
+			</p>
+		</div>
+		<div class="vertical-rule"></div>
+		<div class="social-media-handles">
+			<span class="">Connect with me on &nbsp; </span>
+			<span class="handles">
+				<i class="fab fa-facebook-square"></i> <i class="fab fa-twitter"></i>  <i class="fab fa-facebook-square"></i>  <i class="fab fa-github"></i>
+			</span>
+		</div>
+	</footer>
+
+	<!-- Modals -->
+	<div class="image-modal">
+		<span class="close">&times;</span>
+		<div class="image-modal-container">
+			<div class="modal-img">
+				<img src="images/Desert.jpg" alt="desert" />
+			</div>
+			<h4 class="modal-image-name">Desert</h4>
+			<p class="modal-image-desc">This is a desert image taken by Jason Stathm. And has the ability to make your day better. Nict to meet you and this is a very great day and to crown it all you neddt o t be of service to the world t o make a difference a very <a href="nice.com">Blog</a> large impact in your life and those around you.
+			This is a desert image taken by Jason Stathm. And has the ability to make your day better. Nict to meet you and this is a very great day and to crown it all you neddt o t be of service to the world t o make a difference a very large impact in your life and those around you</p>
+		</div>
+	</div>
+</body>
+<script src="app.js"></script>
+</html>
