@@ -462,11 +462,6 @@ form input[type=file] + label {
 		flex-basis: 31%;
 	}
 
-	/*.submit-btn {
-		width: auto;
-		padding: 5px 10%;
-	}*/
-
 	form input[type=file] + label {
 		padding: 10px 10px;
 	}
@@ -480,13 +475,6 @@ form input[type=file] + label {
 }
 
 @media only screen and (max-width: 802px) {
-	/*.gallery-container {
-		width: 90%;
-	}
-
-	.box {
-		flex-basis: 40%;
-	}*/
 	.image-modal-container {
 		width: 74%;
 	}
@@ -577,10 +565,6 @@ form input[type=file] + label {
 	.footer {
 		height: auto;
 	}
-
-	/*.image-modal-container {
-		height: 77%;
-	}*/
 
 }
 
