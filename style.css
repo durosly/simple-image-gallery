@@ -136,10 +136,6 @@ form {
 	position: relative;
 }
 
-.upload-form {
-	//display: none;
-}
-
 .message-form {
 	display: none;
 }
@@ -349,9 +345,8 @@ form input[type=file] + label {
 
 /* Image modal styling */
 .image-modal {
-	display: flex;
-	/* to overwrite flex diplay and hide element */
-	/*display: none;*/
+	/*display: flex;*/
+	display: none;/* to overwrite flex diplay and hide element */
 	position: fixed;
 	top: 0;
 	left: 0;

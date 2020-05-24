@@ -26,6 +26,43 @@ function closeImageModal(e) {
 	modal.style.display = 'none';
 }
 
+// upload and contact form transition scope
+{
+	//counter to keep track of currently displayed form
+	let formStatus = 0;
+
+	//forms to be transitted
+	const uploadForm = document.querySelector('.upload-form');
+	const messageForm = document.querySelector('.message-form');
+
+	//action button for form transition
+	const actionBtn = document.querySelector(".action");
+
+	//function to transit between forms
+	const transitForm = () => {
+		console.log("fired");
+		switch(formStatus) {
+			case 0:
+				uploadForm.style.display = "none";
+				messageForm.style.display = "block";
+				actionBtn.textContent = "Upload image";
+				formStatus = 1;
+				break;
+
+			case 1:
+				uploadForm.style.display = "block";
+				messageForm.style.display = "none";
+				actionBtn.textContent = "Contact me";
+				formStatus = 0;
+				break;
+			default: return;
+		}
+	};//end form transit function
+
+	actionBtn.addEventListener('click', transitForm);
+
+}
+
 
 //dispaly selected image name
 
