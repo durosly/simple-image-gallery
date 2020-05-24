@@ -349,9 +349,9 @@ form input[type=file] + label {
 
 /* Image modal styling */
 .image-modal {
-	/*display: flex;*/
+	display: flex;
 	/* to overwrite flex diplay and hide element */
-	display: none;
+	/*display: none;*/
 	position: fixed;
 	top: 0;
 	left: 0;
@@ -392,12 +392,15 @@ form input[type=file] + label {
 }
 
 .image-modal-container {
+	display: flex;
+	flex-direction: column;
 	width: 50%;
 	height: 90%;
 	background: #fff;
-	border-radius: 20px;
+	border-radius: 10px;
 	overflow: hidden;
 	animation: moveInTop .8s linear;
+	padding-bottom: 10px;
 }
 
 /* modal container animation */
@@ -423,16 +426,18 @@ form input[type=file] + label {
 	height: 100%;
 }
 
+.modal-info {
+	height: 20%;
+	overflow: auto;
+}
+
 .modal-image-name {
-	margin: 0;
-	padding: 0 10px;
+	margin: 5px 10px;
 }
 
 .modal-image-desc {
 	margin-top: 10px;
 	padding: 0 10px;
-	max-height: 20%;
-	overflow-y: auto;
 }
 
 
@@ -577,10 +582,6 @@ form input[type=file] + label {
 		height: 77%;
 	}*/
 
-	.modal-image-desc {
-		height: 23%;
-		overflow-y: auto;
-	}
 }
 
 @media only screen and (max-width: 340px) {
