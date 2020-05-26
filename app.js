@@ -1,5 +1,26 @@
-//click event to open image modal
 const galleryContainer = document.querySelector('.gallery-container');
+
+//scope to load images on page load
+{
+	const xhr = new XMLHttpRequest();
+	xhr.open("GET", "php/readImages.php?start=0");
+	xhr.onreadystatechange = () => {
+		if(xhr.readyState < 4) {
+			console.log("loading");
+		} else if(xhr.readyState === 4) {
+			if(xhr.status === 200) {
+				console.log(xhr.responseText);
+			} else {
+				console.log(xhr.status);
+			}
+		}
+
+	}
+
+	xhr.send();
+}
+
+//click event to open image modal
 galleryContainer.addEventListener('click', openImageModal);
 
 
@@ -40,7 +61,6 @@ function closeImageModal(e) {
 
 	//function to transit between forms
 	const transitForm = () => {
-		console.log("fired");
 		switch(formStatus) {
 			case 0:
 				uploadForm.style.display = "none";

@@ -123,6 +123,7 @@ header {
 .form-region {
 	color: #eaeaea;
 	background: #33363b;
+	transition: all 1s ease;
 }
 form {
 	margin-top: 10px;
@@ -187,6 +188,10 @@ form textarea {
 	resize: vertical;
 	background: #ddd;
 	transition: all .5s ease-out;
+}
+
+.message-form textarea {
+	height: 180px;
 }
 
 form textarea:valid {
