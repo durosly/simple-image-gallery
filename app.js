@@ -1,5 +1,47 @@
 const galleryContainer = document.querySelector('.gallery-container');
 
+let imageCounter = 0;
+
+function loadContent(data) {
+	data.forEach((item) => {
+		const box = document.createElement("div");
+		box.classList.add("box");
+		box.setAttribute("data-id", item.id);
+		
+		// image div
+		const imageContainer = document.createElement('div');
+		imageContainer.classList.add("image-container");
+		//image
+		const img = document.createElement('img');
+		img.classList.add("image");
+		img.setAttribute("src", "svg/camera-fade.svg");
+
+		//insert image into image container
+		imageContainer.appendChild(img);
+
+		//details div
+		const details = document.createElement("div");
+		details.classList.add("details");
+		const detailsContent = `
+			<h4>${item.name}</h4>
+			<h5>${item.credit}</h5>
+			<p title="Date uploaded"><i class="fas fa-calendar-alt"></i> <span>${item.date}.</span></p>
+			<p title="Time uploaded"><i class="fas fa-clock"></i> <span>${item.time} GMT +1</span></p>
+		`;
+		details.innerHTML = detailsContent;
+		//append all to box div
+		box.appendChild(imageContainer);
+		box.appendChild(details);
+
+		//insert into dom
+		galleryContainer.appendChild(box);
+	});
+	
+
+	//increment image counter for next request
+	imageCounter = data.length - 1;
+}
+
 //scope to load images on page load
 {
 	const xhr = new XMLHttpRequest();
@@ -9,7 +51,9 @@ const galleryContainer = document.querySelector('.gallery-container');
 			console.log("loading");
 		} else if(xhr.readyState === 4) {
 			if(xhr.status === 200) {
-				console.log(xhr.responseText);
+				const json = JSON.parse(xhr.responseText);
+				loadContent(json);
+				// console.log(xhr.responseText);
 			} else {
 				console.log(xhr.status);
 			}

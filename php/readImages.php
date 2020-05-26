@@ -2,7 +2,7 @@
 	require_once 'config/conn.php';
 
 	if(isset($_GET['start'])) {
-		$sql = "SELECT * FROM images LIMIT ?,6;";
+		$sql = "SELECT * FROM images ORDER BY id DESC LIMIT ?,6;";
 		$stmt = $conn->prepare($sql);
 
 		if(!$stmt) {
@@ -23,13 +23,15 @@
 
 				while($row = $result->fetch_assoc()) {
 					extract($row);
+					$date = date("d l, m, Y", strtotime($timeAdded));
+					$time = date("h:i:sa", strtotime($timeAdded));
 					$item = array(
-						id => $id,
-						name => $name,
-						credit => $credit,
-						filename => $fileName,
-						description => $description,
-						timestamp => $timeAdded
+						"id" => $id,
+						"name" => $name,
+						"credit" => $credit,
+						"filename" => $fileName,
+						"date" => $date,
+						"time" => $time
 					);
 
 					array_push($data, $item);
