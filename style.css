@@ -402,6 +402,8 @@ form input[type=file] + label {
 .image-modal-container {
 	display: flex;
 	flex-direction: column;
+	justify-content: center;
+	align-items: center;
 	width: 50%;
 	height: 90%;
 	background: #fff;

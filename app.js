@@ -3,6 +3,15 @@ const loadMoreBtn = document.getElementById("load-more");
 
 let imageCounter = 0;
 
+//function to create loader image
+function createLoader(type) {
+	const img = document.createElement('img');
+	img.classList.add("loader");
+	img.setAttribute("src", `svg/camera-${type}.svg`);
+
+	return img
+}
+
 function loadContent(data) {
 	data.forEach((item) => {
 		const box = document.createElement("div");
@@ -13,9 +22,7 @@ function loadContent(data) {
 		imageContainer.classList.add("image-container");
 		imageContainer.setAttribute("id", item.id);
 		//image
-		const img = document.createElement('img');
-		img.classList.add("loader");
-		img.setAttribute("src", "svg/camera-fade.svg");
+		const img = createLoader("fade");
 
 		//insert image into image container
 		imageContainer.appendChild(img);
@@ -101,6 +108,7 @@ galleryContainer.addEventListener('click', openImageModal);
 
 
 const modal = document.querySelector('.image-modal');
+const modalDesc = document.querySelector('.modal-info');
 function openImageModal(e) {
 	const boxes = document.querySelectorAll('.box');
 
@@ -114,9 +122,36 @@ function openImageModal(e) {
 			const modalImage = modal.querySelector('img');
 			modalImage.src = img.src;
 			modal.style.display = 'flex';
-
+			getDescription(id);
 		}
 	})
+}
+
+//function to load description to the DOM
+function loadDescription(data) {
+	const html = `
+		<h4 class="modal-image-name">${data.name}</h4>
+		<p class="modal-image-desc">${data.description}</p>
+	`;
+
+	modalDesc.innerHTML = html;
+}
+
+//function to get image description from database
+function getDescription(id) {
+	const xhr = new XMLHttpRequest();
+	xhr.open("GET", `php/readDescription.php?id=${id}`, true);
+	modalDesc.innerHTML = "";
+	modalDesc.appendChild(createLoader("spin"));
+	xhr.onreadystatechange = () => {
+		if(xhr.readyState === 4) {
+			if(xhr.status === 200) {
+				loadDescription(JSON.parse(xhr.responseText));
+			}
+		}
+	}
+
+	xhr.send();
 }
 
 //click event to close modal
