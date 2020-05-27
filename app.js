@@ -53,6 +53,7 @@ function imageLoader(src, id, name) {
 	const img = document.createElement('img');
 	img.classList.add("image");
 	img.setAttribute("alt", name);
+	img.setAttribute("data-id", id);
 	// on load insert to DOM
 	img.onload = () => {
 		const container = document.getElementById(id);
@@ -91,7 +92,7 @@ function requestImages(){
 document.addEventListener("DOMContentLoaded", requestImages);
 
 //load more images on 
-loadMoreBtn.addEventListener("click", requestimages);
+loadMoreBtn.addEventListener("click", requestImages);
 
 
 
@@ -105,7 +106,10 @@ function openImageModal(e) {
 
 	boxes.forEach((box) => {
 		if(box.contains(e.target)){
+			//get image in clicked box div
 			const img = box.querySelector('img');
+			//get id of image
+			const id = img.dataset.id;
 
 			const modalImage = modal.querySelector('img');
 			modalImage.src = img.src;
