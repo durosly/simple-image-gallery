@@ -1,4 +1,5 @@
 const galleryContainer = document.querySelector('.gallery-container');
+const loadMoreBtn = document.getElementById("load-more");
 
 let imageCounter = 0;
 
@@ -6,14 +7,14 @@ function loadContent(data) {
 	data.forEach((item) => {
 		const box = document.createElement("div");
 		box.classList.add("box");
-		box.setAttribute("data-id", item.id);
 		
 		// image div
 		const imageContainer = document.createElement('div');
 		imageContainer.classList.add("image-container");
+		imageContainer.setAttribute("id", item.id);
 		//image
 		const img = document.createElement('img');
-		img.classList.add("image");
+		img.classList.add("loader");
 		img.setAttribute("src", "svg/camera-fade.svg");
 
 		//insert image into image container
@@ -35,17 +36,39 @@ function loadContent(data) {
 
 		//insert into dom
 		galleryContainer.appendChild(box);
-	});
+
+		//Load image
+		imageLoader(item.filename, item.id, item.name);
+
+	}); //end for each loop
 	
 
 	//increment image counter for next request
 	imageCounter = data.length - 1;
-}
+} // end of loadContent function
 
-//scope to load images on page load
-{
+//image loader function
+function imageLoader(src, id, name) {
+	//DOM image
+	const img = document.createElement('img');
+	img.classList.add("image");
+	img.setAttribute("alt", name);
+	// on load insert to DOM
+	img.onload = () => {
+		const container = document.getElementById(id);
+		container.innerHTML = "";
+		container.appendChild(img);
+
+	}
+
+	img.src = `images/${src}`;
+
+} // end image loader function
+
+//function to load images on page load
+function requestImages(){
 	const xhr = new XMLHttpRequest();
-	xhr.open("GET", "php/readImages.php?start=0");
+	xhr.open("GET", `php/readImages.php?start=${imageCounter}`, true);
 	xhr.onreadystatechange = () => {
 		if(xhr.readyState < 4) {
 			console.log("loading");
@@ -62,7 +85,15 @@ function loadContent(data) {
 	}
 
 	xhr.send();
-}
+} //end of requestimages function
+
+//load images on DOM load
+document.addEventListener("DOMContentLoaded", requestImages);
+
+//load more images on 
+loadMoreBtn.addEventListener("click", requestimages);
+
+
 
 //click event to open image modal
 galleryContainer.addEventListener('click', openImageModal);
