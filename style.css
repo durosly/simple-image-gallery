@@ -95,6 +95,7 @@ header {
 
 .details h4 {
 	font-size: 20px;
+	text-transform: capitalize;
 }
 
 .details h5 {
@@ -310,11 +311,28 @@ form input[type=file] + label {
 }
 
 .progress-bar {
+	text-align: center;
 	width: 7%;
 	background: #368cbf;
 	height: 100%;
 	border-radius: 100px;
-	transition: all .5s ease-out;
+	transition: all .3s ease-out;
+}
+
+.success {
+	border-color: #7ebc59;
+}
+
+.success .progress-bar {
+	background-color: #7ebc59;
+}
+
+.fail {
+	border-color: red;
+}
+
+.fail .progress-bar {
+	background-color: red;
 }
 
 

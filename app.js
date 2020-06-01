@@ -1,9 +1,10 @@
 const galleryContainer = document.querySelector('.gallery-container');
 const loadMoreBtn = document.getElementById("load-more");
 
+
 let imageCounter = 0;
 
-//function to create loader image
+//function to create preloader image
 function createLoader(type) {
 	const img = document.createElement('img');
 	img.classList.add("loader");
@@ -11,7 +12,7 @@ function createLoader(type) {
 
 	return img
 }
-
+ 
 function loadContent(data) {
 	data.forEach((item) => {
 		const box = document.createElement("div");
@@ -51,7 +52,7 @@ function loadContent(data) {
 	
 
 	//increment image counter for next request
-	imageCounter = data.length - 1;
+	imageCounter = data.length;
 } // end of loadContent function
 
 //image loader function
@@ -73,10 +74,27 @@ function imageLoader(src, id, name) {
 
 } // end image loader function
 
+//function to disable loadMoreBtn
+function disableLoadMoreBtn() {
+	//disable load more btn
+	loadMoreBtn.disabled = true;
+	loadMoreBtn.textContent = "Loading...";
+}
+
+//function to enable loadMoreBtn
+function enableLoadMoreBtn() {
+	//enable load more btn
+	loadMoreBtn.disabled = false;
+	loadMoreBtn.textContent = "See more...";	
+}
+
 //function to load images on page load
 function requestImages(){
 	const xhr = new XMLHttpRequest();
 	xhr.open("GET", `php/readImages.php?start=${imageCounter}`, true);
+	//disable load more btn
+	disableLoadMoreBtn();
+
 	xhr.onreadystatechange = () => {
 		if(xhr.readyState < 4) {
 			console.log("loading");
@@ -88,6 +106,9 @@ function requestImages(){
 			} else {
 				console.log(xhr.status);
 			}
+
+			//enable load more btn
+			enableLoadMoreBtn();
 		}
 
 	}
@@ -137,6 +158,11 @@ function loadDescription(data) {
 	modalDesc.innerHTML = html;
 }
 
+//function to handle error on loading of description
+function loadDescriptionError() {
+	modalDesc.innerHTML = "<p style='color: red;'><i class='fas fa-exclamation-triangle'></i> Something went wrong. <br />Could not load image description.</p>"
+}
+
 //function to get image description from database
 function getDescription(id) {
 	const xhr = new XMLHttpRequest();
@@ -147,6 +173,8 @@ function getDescription(id) {
 		if(xhr.readyState === 4) {
 			if(xhr.status === 200) {
 				loadDescription(JSON.parse(xhr.responseText));
+			} else {
+				loadDescriptionError();
 			}
 		}
 	}
@@ -195,7 +223,150 @@ function closeImageModal(e) {
 
 	actionBtn.addEventListener('click', transitForm);
 
-}
+	//event listener for on submit of upload form
+	uploadForm.addEventListener("submit", uploadFormHandler);
+
+	//upload form handler
+	function uploadFormHandler(e) {
+		e.preventDefault();
+		//serialize form data
+		const data = new FormData();
+
+		//gather form data
+		data.append("filename", uploadForm.filename.value);
+		data.append("filedesc", uploadForm.filedesc.value);
+		data.append("filecredit", uploadForm.filecredit.value);
+		data.append("file", uploadForm.file.files[0]);
+
+		//send form data
+		sendUploadData(data);
+	}
+
+	//display selected file name
+	const displayFilename = document.querySelector('.image-name-preview');
+	uploadForm.file.addEventListener("change", () => {
+		displayFilename.textContent = uploadForm.file.files[0].name;
+	})
+
+	//function to disable upload form submit btn
+	function disableUploadFormSubmitBtn() {
+		uploadForm.querySelector(".submit-btn").disabled = true;
+	}
+
+	//function to enable upload form submit btn
+	function enableUploadFormSubmitBtn() {
+		uploadForm.querySelector(".submit-btn").disabled = false;
+	}
+
+	//function to display form overlay
+	function displayOverlay(form) {
+		form.querySelector('.form-progress-overlay').style.display = 'flex';
+	}
+
+	//function to hide form overlay
+	function hideOverlay(form) {
+		form.querySelector('.form-progress-overlay').style.display = 'none';
+	}
+
+	//show overlay spinner
+	function showOverlaySpinner(form) {
+		form.querySelector('.loading').style.display = 'block';
+	}
+
+	//hide overlay spinner
+	function hideOverlaySpinner(form) {
+		form.querySelector('.loading').style.display = 'none';
+	}
+
+	//show progress bar
+	function showProgressBar(form) {
+		form.querySelector('.progress-container').style.display = 'block';
+	}
+
+	//hide progress bar
+	function hideProgressBar(form) {
+		form.querySelector('.progress-container').style.display = 'none';
+	}
+
+	//clear upload form fields
+	function clearUploadFields() {
+		uploadForm.filename.value = "";
+		uploadForm.filedesc.value = "";
+		uploadForm.filecredit.value = "";
+		uploadForm.file.files[0] = "";
+	}
+
+	//function to update progress
+	function updateProgress(form, progress) {
+		const bar = form.querySelector('.progress-bar');
+		bar.style.width = `${progress}%`;
+
+		//bad code [improve this]
+		if(progress === 100) {
+			bar.textContent = "Upload Success";
+			bar.parentElement.classList.add("success");
+			setTimeout(() => {
+				bar.textContent = "";
+				bar.parentElement.classList.remove("success");
+			}, 5000);
+		}
+	}
+
+	//function to send form data
+	function sendUploadData(data) {
+		const xhr = new XMLHttpRequest();
+		xhr.open("POST", 'php/uploadImage.php', true);
+		//disable upload btn
+		disableUploadFormSubmitBtn();
+		//xhr.setRequestHeader("Content-Type", "multipart/form-data");
+		displayOverlay(uploadForm);
+		showProgressBar(uploadForm);
+
+		xhr.upload.onprogress = (e) => {
+			const progress = e.lengthComputable ? Math.round((e.loaded / e.total) * 100) : 0;
+			if(progress >= 7) {
+				updateProgress(uploadForm, progress);
+			}	
+		}
+		xhr.onload = () => {
+			enableUploadFormSubmitBtn();
+			clearUploadFields();
+			setTimeout(() => {
+				hideOverlay(uploadForm);
+			}, 4500);
+		}
+
+		xhr.onerror = () => {
+			enableUploadFormSubmitBtn();
+			bar.textContent = "Upload Failed";
+			bar.parentElement.classList.add("fail");
+			setTimeout(() => {
+				bar.textContent = "";
+				bar.parentElement.classList.remove("fail");
+			}, 5000);
+			setTimeout(() => {
+				hideOverlay(uploadForm);
+			}, 4500);
+			
+			console.log(xhr.status, "nice");
+			console.log(xhr.response);
+		}
+
+		xhr.send(data);
+	} //end upload form codes
+
+
+
+
+	/************************************
+	*
+	*
+	*	begin message form codes
+	*
+	**************************************/
+
+
+}//end upload and contact form scope
 
 
 //dispaly selected image name

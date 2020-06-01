@@ -20,7 +20,7 @@
 			} else {
 				$result = $stmt->get_result();
 				$data = array();
-
+				//date_default_timezone_set("west central africa");
 				while($row = $result->fetch_assoc()) {
 					extract($row);
 					$date = date("d l, m, Y", strtotime($timeAdded));
