@@ -3,6 +3,7 @@ const loadMoreBtn = document.getElementById("load-more");
 
 
 let imageCounter = 0;
+let lastId = '';
 
 //function to create preloader image
 function createLoader(type) {
@@ -14,7 +15,7 @@ function createLoader(type) {
 }
  
 function loadContent(data) {
-	data.forEach((item) => {
+	data.forEach((item, index) => {
 		const box = document.createElement("div");
 		box.classList.add("box");
 		
@@ -48,11 +49,15 @@ function loadContent(data) {
 		//Load image
 		imageLoader(item.filename, item.id, item.name);
 
+		if((index + 1) === data.length) {
+			lastId = item.id;
+		}
+
 	}); //end for each loop
 	
 
 	//increment image counter for next request
-	imageCounter = data.length;
+	imageCounter += data.length;
 } // end of loadContent function
 
 //image loader function
@@ -88,10 +93,28 @@ function enableLoadMoreBtn() {
 	loadMoreBtn.textContent = "See more...";	
 }
 
+function showLoadMoreNotice(response) {
+	const data = JSON.parse(response);
+
+	const notice = document.querySelector('.post-notice');
+	notice.innerHTML = "";
+
+	const message = document.createElement('h3');
+	message.style.color = "red";
+	message.innerText = data.message;
+
+	notice.appendChild(message);
+
+	setTimeout(() => {
+		notice.removeChild(message);
+	}, 5000);
+
+}
+
 //function to load images on page load
 function requestImages(){
 	const xhr = new XMLHttpRequest();
-	xhr.open("GET", `php/readImages.php?start=${imageCounter}`, true);
+	xhr.open("GET", `php/readImages.php?start=${imageCounter}lastId=${lastId}`, true);
 	//disable load more btn
 	disableLoadMoreBtn();
 
@@ -103,6 +126,8 @@ function requestImages(){
 				const json = JSON.parse(xhr.responseText);
 				loadContent(json);
 				// console.log(xhr.responseText);
+			} else if(xhr.status === 404) {
+				showLoadMoreNotice(xhr.responseText);
 			} else {
 				console.log(xhr.status);
 			}
