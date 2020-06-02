@@ -7,7 +7,7 @@
 			$sql .= " WHERE id < ?";
 		}
 
-		$sql .= " ORDER BY id DESC LIMIT ?,6;";
+		$sql .= " ORDER BY id DESC LIMIT ?,8;";
 		$stmt = $conn->prepare($sql);
 
 		if(!$stmt) {
