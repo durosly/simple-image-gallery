@@ -189,7 +189,12 @@ function closeImageModal(e) {
 	modal.style.display = 'none';
 }
 
-// upload and contact form transition scope
+
+/***********************************************
+* upload and contact form transition 			*
+* and submission handling scope					*
+*												*
+***********************************************/
 {
 	//counter to keep track of currently displayed form
 	let formStatus = 0;
@@ -226,6 +231,9 @@ function closeImageModal(e) {
 	//event listener for on submit of upload form
 	uploadForm.addEventListener("submit", uploadFormHandler);
 
+	/****************************
+	*	upload form handler 	*
+	*****************************/
 	//upload form handler
 	function uploadFormHandler(e) {
 		e.preventDefault();
@@ -249,13 +257,13 @@ function closeImageModal(e) {
 	})
 
 	//function to disable upload form submit btn
-	function disableUploadFormSubmitBtn() {
-		uploadForm.querySelector(".submit-btn").disabled = true;
+	function disableUploadFormSubmitBtn(form) {
+		form.querySelector(".submit-btn").disabled = true;
 	}
 
 	//function to enable upload form submit btn
-	function enableUploadFormSubmitBtn() {
-		uploadForm.querySelector(".submit-btn").disabled = false;
+	function enableUploadFormSubmitBtn(form) {
+		form.querySelector(".submit-btn").disabled = false;
 	}
 
 	//function to display form overlay
@@ -317,7 +325,7 @@ function closeImageModal(e) {
 		const xhr = new XMLHttpRequest();
 		xhr.open("POST", 'php/uploadImage.php', true);
 		//disable upload btn
-		disableUploadFormSubmitBtn();
+		disableUploadFormSubmitBtn(uploadForm);
 		//xhr.setRequestHeader("Content-Type", "multipart/form-data");
 		displayOverlay(uploadForm);
 		showProgressBar(uploadForm);
@@ -329,7 +337,7 @@ function closeImageModal(e) {
 			}	
 		}
 		xhr.onload = () => {
-			enableUploadFormSubmitBtn();
+			enableUploadFormSubmitBtn(uploadForm);
 			clearUploadFields();
 			setTimeout(() => {
 				hideOverlay(uploadForm);
@@ -337,7 +345,7 @@ function closeImageModal(e) {
 		}
 
 		xhr.onerror = () => {
-			enableUploadFormSubmitBtn();
+			enableUploadFormSubmitBtn(uploadForm);
 			bar.textContent = "Upload Failed";
 			bar.parentElement.classList.add("fail");
 			setTimeout(() => {
@@ -347,23 +355,90 @@ function closeImageModal(e) {
 			setTimeout(() => {
 				hideOverlay(uploadForm);
 			}, 4500);
-			
-			console.log(xhr.status, "nice");
-			console.log(xhr.response);
 		}
 
 		xhr.send(data);
-	} //end upload form codes
+	} //end upload form handler
 
 
 
 
-	/************************************
-	*
-	*
-	*	begin message form codes
-	*
+	/*************************************
+	*									 *
+	*	begin message form handler 		 *
+	*									 *
 	**************************************/
+
+	messageForm.addEventListener("submit", messageFormHandler);
+
+	function messageFormHandler(e) {
+		e.preventDefault();
+
+		const data = new FormData(messageForm);
+		displayOverlay(messageForm);
+
+		sendMessageHandler(data);
+	}
+
+	function clearMessageFields() {
+		messageForm.email.value = "";
+		messageForm.message.value = "";
+	}
+
+	function showMessageNotice(status, response) {
+		const notice = document.querySelector('.msg-notification');
+		const elem = document.createElement('h3');
+		hideOverlaySpinner(messageForm);
+		if(status === 200) {
+			elem.style.color = "#7ebc59";
+			elem.innerText = response.message;
+			notice.appendChild(elem);
+			clearMessageFields();
+		} else {
+			elem.style.color = 'red';
+			elem.innerText = response.message;
+			notice.appendChild(elem);
+		}
+
+		setTimeout(() => {
+			notice.removeChild(elem);
+		}, 5000);
+	}
+
+	function sendMessageHandler(data) {
+		const xhr = new XMLHttpRequest();
+
+		xhr.open("POST", "php/message.php", true);
+
+		xhr.onload = () => {
+			setTimeout(() => {
+				hideOverlay(messageForm);
+			}, 5000);
+			
+			if(xhr.status === 200) {
+				showMessageNotice(xhr.status, JSON.parse(xhr.responseText));
+			} else {
+				showMessageNotice(xhr.status, {message: xhr.statusText});
+			}
+			
+		}
+
+		xhr.onerror = () => {
+			const notice = document.querySelector('.msg-notification');
+			const elem = document.createElement('h3');
+			hideOverlaySpinner(messageForm);
+
+			elem.style.color = 'red';
+			elem.innerText = "Something went wrong.";
+			notice.appendChild(elem);
+
+			setTimeout(() => {
+				notice.removeChild(elem);
+			}, 5000);
+		}
+
+		xhr.send(data);
+	}
 
 
 }//end upload and contact form scope
