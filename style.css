@@ -20,18 +20,18 @@ body {
 header {
 	padding: 20px;
 	height: 50px;
-	background: linear-gradient(60deg,#eaeaea, #33363b, #eaeaea);
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	margin-bottom: 20px;
-	color: #eaeaea;
+	color: #33363b;
 }
 
 .em {
 	font-size: 50px;
 	text-transform: uppercase;
 	letter-spacing: 20px;
+	text-shadow: 1px 1px 4px #33363b;
 }
 
 .logo {
